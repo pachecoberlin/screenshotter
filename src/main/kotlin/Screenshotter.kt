@@ -14,15 +14,16 @@ fun main(args: Array<String>) {
         val userinput = readLine() ?: "not empty"
         if (userinput.isNotEmpty() && userinput in ("yj")) {
             ImageIO.write(screenShot, "PNG", file)
-        } else doNotOverwrite(file, number, screenShot)
-    } else doNotOverwrite(file, number, screenShot)
+        } else doNotOverwrite(number, screenShot)
+    } else doNotOverwrite(number, screenShot)
 }
 
-private fun doNotOverwrite(file: File, number: Int, screenShot: BufferedImage?) {
-    var file1 = file
-    var number1 = number
+private fun doNotOverwrite(number: Int, screenShot: BufferedImage?) {
+    var filename = "$number"
+    var file1 = File(WRITEPATH, "$filename.png")
     while (file1.exists()) {
-        file1 = File(WRITEPATH, "${++number1}.png")
+        filename = "${filename}a"
+        file1 = File(WRITEPATH, "$filename.png")
     }
     ImageIO.write(screenShot, "PNG", file1)
 }
