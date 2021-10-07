@@ -18,7 +18,7 @@ fun main(args: Array<String>) {
     } else doNotOverwrite(number, screenShot)
 }
 
-private fun doNotOverwrite(number: Int, screenShot: BufferedImage?) {
+fun doNotOverwrite(number: Int, screenShot: BufferedImage?) {
     var filename = "$number"
     var file1 = File(WRITEPATH, "$filename.png")
     while (file1.exists()) {
