@@ -8,6 +8,10 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
+/**
+ * Playing with Screenshots and Tess4J
+ */
+
 
 fun simpleScreenshot(args: Array<String>) {
     val number = if (args.isNotEmpty()) args[0].toIntOrNull() ?: magicNumber else magicNumber
@@ -17,16 +21,13 @@ fun simpleScreenshot(args: Array<String>) {
     ImageIO.write(screenShot, "PNG", file)
 }
 
-fun main2() {
+fun printNumbersOnScreenshot() {
     val tesseract: ITesseract = setupTesseract()
     val robot = Robot()
     val screenShot = robot.createScreenCapture(Rectangle(120, 1300, 1660, 900))
     val subimage = screenShot.getSubimage(50, 850, 100, 50)
-
     val number = scanPicForNumber(subimage, tesseract)
     println(number)
-    val file = File("$WRITEPATH$number.png")
-    ImageIO.write(subimage, "PNG", file)
 }
 
 fun String.intOrNull(): Int? {
@@ -40,16 +41,19 @@ private fun scanPicForNumber(file: File?, tesseract: ITesseract): Int {
 private fun scanPicForNumber(image: BufferedImage?, tesseract: ITesseract): Int {
     return scanPicForNumber(imageInput = image, tesseract = tesseract)
 }
+
 val magicNumber = 600
 private fun scanPicForNumber(imageInput: BufferedImage? = null, fileInput: File? = null, tesseract: ITesseract): Int {
     return if (imageInput != null) {
         tesseract.doOCR(binarize(imageInput)).intOrNull() ?: tesseract.doOCR(imageInput).intOrNull() ?: magicNumber
     } else {
-        tesseract.doOCR(binarize(ImageIO.read(fileInput))).intOrNull() ?: tesseract.doOCR(fileInput).intOrNull() ?: magicNumber
+        tesseract.doOCR(binarize(ImageIO.read(fileInput))).intOrNull() ?: tesseract.doOCR(fileInput).intOrNull()
+        ?: magicNumber
     }
 }
 
-fun main() {
+//Tried to constantly check number in the corner of the screenshot and name file like the number
+fun test() {
     val tesseract: ITesseract = setupTesseract()
     val robot = Robot()
     var lastNumber = 0
@@ -100,14 +104,43 @@ fun binarize(img: BufferedImage): BufferedImage {
     for (i in 0 until img.width) {
         for (j in 0 until img.height) {
             val rgbValues: Int = img.getRGB(i, j)
-            //Convert to three separate channels
+            //An int can be represented with 8 hex numbers. The first two are the alpha value,
+            // which we will ignore within this calculation followed by two hex numbers for red,
+            // two for green and two for blue
             val r = 0x00ff0000 and rgbValues shr 16
             val g = 0x0000ff00 and rgbValues shr 8
             val b = 0x000000ff and rgbValues
             val m = r + g + b
-            //(255+255+255)/2 =383 middle of dark and light
+            //(255+255+255)/2 = 383 middle of dark and light
             bufferedImage.setRGB(i, j, if (m >= 383) Color.WHITE.rgb else 0)
         }
     }
     return bufferedImage
+}
+
+fun main(args: Array<String>) {
+    var number = if (args.isNotEmpty()) args[0].toIntOrNull() ?: 500 else 500
+    while (true) {
+        println("going to save $number.png, type q to quit or type other name:")
+        var name = readLine() ?: ""
+        if (name == "q") {
+            break
+        }
+
+        name = if (name.isEmpty()) number.toString() else name
+
+        number = name.toIntOrNull() ?: ++number
+
+        val robot = Robot()
+        val screenShot = robot.createScreenCapture(Rectangle(120, 1300, 1660, 900))
+        val file = File("$AUTOPATH$name.png")
+        if (number != 500 && file.exists()) {
+            println("Overwrite file $name.png?(y/j)")
+            val userinput = readLine() ?: "not empty"
+            if (userinput.isNotEmpty() && userinput in ("yj")) {
+                ImageIO.write(screenShot, "PNG", file)
+            } else doNotOverwrite(number, screenShot)
+        } else doNotOverwrite(number, screenShot)
+        number++
+    }
 }
