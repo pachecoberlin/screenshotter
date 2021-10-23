@@ -11,14 +11,33 @@ import javax.imageio.ImageIO
 /**
  * Playing with Screenshots and Tess4J
  */
+fun readAllFilesAsImagesAndSaveSubImage() {
+//    val file = File("${READPATH}1.png")
+//    println(file.exists())
+//    val screenShot: BufferedImage = ImageIO.read(file)
+//    val subimage = screenShot.getSubimage(150, 250, 1770, 750)
+//    ImageIO.write(subimage, "PNG", File("${WRITEPATH}test.png"))
+    File(READPATH).walk().forEach {
+        if (!it.isDirectory) {
+            val screenShot: BufferedImage = ImageIO.read(it)
+            val subimage = screenShot.getSubimage(150, 250, 1770, 750)
+            ImageIO.write(subimage, "PNG", File(WRITEPATH + it.name))
+        }
+    }
+}
 
-
-fun simpleScreenshot(args: Array<String>) {
-    val number = if (args.isNotEmpty()) args[0].toIntOrNull() ?: magicNumber else magicNumber
+//fun simpleScreenshot(args: Array<String>) {
+fun simpleScreenshot() {
+    var number = 0 //if (args.isNotEmpty()) args[0].toIntOrNull() ?: magicNumber else magicNumber
     val robot = Robot()
-    val screenShot = robot.createScreenCapture(Rectangle(120, 1300, 1660, 900))
-    val file = File("$WRITEPATH$number.png")
-    ImageIO.write(screenShot, "PNG", file)
+    while (true) {
+        val screenShot = robot.createScreenCapture(Rectangle(0, 1200, 1920, 1080))
+        ImageIO.write(screenShot, "PNG", File("$WRITEPATH$number.png"))
+        val screenShot2 = robot.createScreenCapture(Rectangle(0, 0, 1920, 1080))
+        ImageIO.write(screenShot2, "PNG", File("${WRITEPATH}_$number.png"))
+        number++
+        Thread.sleep(10000)
+    }
 }
 
 fun printNumbersOnScreenshot() {
@@ -118,7 +137,7 @@ fun binarize(img: BufferedImage): BufferedImage {
     return bufferedImage
 }
 
-fun main(args: Array<String>) {
+fun oldmain(args: Array<String>) {
     var number = if (args.isNotEmpty()) args[0].toIntOrNull() ?: 500 else 500
     while (true) {
         println("going to save $number.png, type q to quit or type other name:")
