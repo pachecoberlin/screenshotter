@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: Execute PR reviewer linter
         run: |
-          TODO or allready done
+          echo TODO or allready done
       - name: Retrieve PR reviewers
         run: |
           echo "CUR_PR_REVIEWERS=$(cat ${{ github.workspace }}/reviewer)" >> $GITHUB_ENV
