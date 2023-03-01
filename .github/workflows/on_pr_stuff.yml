@@ -32,10 +32,8 @@ jobs:
           cat ${{ github.workspace }}/reviewer
           echo "CUR_PR_REVIEWERS=$(cat ${{ github.workspace }}/reviewer)" >> $GITHUB_ENV
           echo ${{env.CUR_PR_REVIEWERS}}
-          echo ${{GITHUB_ENV.CUR_PR_REVIEWERS}}
           echo $GITHUB_ENV
           echo "CUR_PR_REVIEWERS=$(cat ${{ github.workspace }}/reviewer)" >> ${{GITHUB_ENV}}
           echo ${{env.CUR_PR_REVIEWERS}}
-          echo ${{GITHUB_ENV.CUR_PR_REVIEWERS}}
           echo $GITHUB_ENV
           
