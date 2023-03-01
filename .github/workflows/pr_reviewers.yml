@@ -28,6 +28,13 @@ jobs:
       - name: Retrieve PR reviewers
         run: |
           echo "CUR_PR_REVIEWERS=$(cat ${{ github.workspace }}/reviewer)" >> $GITHUB_ENV
+          echo ${{env.CUR_PR_REVIEWERS}}
+          echo ${{GITHUB_ENV.CUR_PR_REVIEWERS}}
+          echo $GITHUB_ENV
+          echo "CUR_PR_REVIEWERS=$(cat ${{ github.workspace }}/reviewer)" >> ${{GITHUB_ENV}}
+          echo ${{env.CUR_PR_REVIEWERS}}
+          echo ${{GITHUB_ENV.CUR_PR_REVIEWERS}}
+          echo $GITHUB_ENV
       - name: Create PR review request
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
