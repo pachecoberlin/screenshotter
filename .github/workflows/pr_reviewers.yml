@@ -28,27 +28,9 @@ jobs:
       - name: Execute PR reviewer linter
         run: |
           echo TODO or allready done
-      - name: Retrieve PR reviewers 1
-        run: |
-          cat ${{ github.workspace }}/reviewer
-      - name: Retrieve PR reviewers 2
-        run: |
-          echo $(cat ${{ github.workspace }}/reviewer)
-      - name: Retrieve PR reviewers 3
-        run: |
-          cat ${{ github.workspace }}/reviewer
-      - name: Retrieve PR reviewers 4
+      - name: Retrieve PR reviewers
         run: |
           echo "CUR_PR_REVIEWERS=$(cat ${{ github.workspace }}/reviewer)" >> $GITHUB_ENV
-      - name: Retrieve PR reviewers 5
-        run: |
-          echo ${{env.CUR_PR_REVIEWERS}}
-      - name: Retrieve PR reviewers 6
-        run: |
-          echo $GITHUB_ENV
-      - name: Retrieve PR reviewers 7
-        run: |
-          echo ${{env}}
       - name: Create PR review request
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
