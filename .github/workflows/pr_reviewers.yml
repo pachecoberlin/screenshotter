@@ -7,6 +7,9 @@ on:
       - opened
       # When a PR gets new commits (to check if new reviewers need to be added)
       - synchronize
+      
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 # Ensures that only one deploy task per branch/environment will run at a time
 concurrency:
@@ -21,7 +24,7 @@ jobs:
     steps:
       - name: Execute PR reviewer linter
         run: |
-          TODO
+          TODO or allready done
       - name: Retrieve PR reviewers
         run: |
           echo "CUR_PR_REVIEWERS=$(cat ${{ github.workspace }}/TODO_INSERT_RELATIVE_FILE_PATH)" >> $GITHUB_ENV
