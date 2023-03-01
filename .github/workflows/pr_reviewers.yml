@@ -27,7 +27,7 @@ jobs:
           TODO or allready done
       - name: Retrieve PR reviewers
         run: |
-          echo "CUR_PR_REVIEWERS=$(cat ${{ github.workspace }}/TODO_INSERT_RELATIVE_FILE_PATH)" >> $GITHUB_ENV
+          echo "CUR_PR_REVIEWERS=$(cat ${{ github.workspace }}/reviewer)" >> $GITHUB_ENV
       - name: Create PR review request
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
