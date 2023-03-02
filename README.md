@@ -9,4 +9,4 @@ The name of the screenshot JPEG will be 500.jpg or any other number when provide
 
 # DataInterface
 ## used by SoftwareComponents where nburda and akasmale are responsibles
-number maxVal=12
+number maxVal=120
