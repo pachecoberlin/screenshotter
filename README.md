@@ -6,3 +6,7 @@ Plan is to have several options to make a full screenshot of all screens, of jus
 const val PATH = "c:\\"
 
 The name of the screenshot JPEG will be 500.jpg or any other number when provided via commandline.
+
+# DataInterface
+## used by SoftwareComponents where nburda and akasmale are responsibles
+number maxVal=12
